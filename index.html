@@ -470,6 +470,12 @@
                 const heading = document.createElement('h3');
                 heading.textContent = title;
                 
+                // Create anchor element to wrap the image
+                const link = document.createElement('a');
+                link.href = `https://www.google.com/search?q=framework+7+${title.toLowerCase().replace(/\s+/g, '+')}+documentation`;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                
                 const img = document.createElement('img');
                 img.classList.add('loading');
                 img.src = `./screens/tiny/${screen}`;
@@ -485,8 +491,11 @@
                 description.classList.add('sr-only');
                 description.textContent = `UI component demonstrating ${title}`;
                 
+                // Add the image to the link
+                link.appendChild(img);
+                
                 figure.appendChild(heading);
-                figure.appendChild(img);
+                figure.appendChild(link);
                 figure.appendChild(description);
                 
                 gallery.appendChild(figure);
