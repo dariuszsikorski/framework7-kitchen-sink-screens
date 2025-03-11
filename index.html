@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framework7 UI Gallery</title>
+    <style>
+        :root {
+            --primary-dark-blue: #2C3E50;
+            --primary-light-blue: #A4B0FF;
+            --primary-white: #FFFFFF;
+            --primary-gray: #6C757D;
+            --primary-light-gray: #F8F9FA;
+            --image-width: 428px;
+            --gap: 30px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Poppins', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-light-gray);
+            color: var(--primary-dark-blue);
+            line-height: 1.6;
+            padding: 2rem;
+            background-image: 
+                linear-gradient(rgba(200, 200, 200, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark-blue);
+        }
+
+        p {
+            color: var(--primary-gray);
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .controls {
+            background-color: var(--primary-white);
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-grow: 1;
+            max-width: 500px;
+        }
+
+        .slider-container label {
+            font-weight: 600;
+            color: var(--primary-dark-blue);
+        }
+
+        #sizeSlider {
+            flex-grow: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, var(--primary-light-blue), var(--primary-dark-blue));
+            border-radius: 4px;
+            outline: none;
+        }
+
+        #sizeSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-dark-blue);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #sizeSlider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-dark-blue);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+
+        #sizeValue {
+            min-width: 60px;
+            font-weight: 600;
+            color: var(--primary-dark-blue);
+            text-align: center;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        button {
+            background-color: var(--primary-white);
+            color: var(--primary-dark-blue);
+            border: 2px solid var(--primary-light-blue);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--primary-light-blue);
+            color: var(--primary-white);
+        }
+
+        button.active {
+            background-color: var(--primary-dark-blue);
+            color: var(--primary-white);
+            border-color: var(--primary-dark-blue);
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--gap);
+            justify-content: center;
+        }
+
+        figure {
+            background-color: var(--primary-white);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        figure:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        figure h3 {
+            padding: 1rem;
+            text-align: center;
+            color: var(--primary-dark-blue);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        figure img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            transition: opacity 0.3s ease;
+        }
+
+        figure img.loading {
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .slider-container {
+                max-width: none;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+        }
+
+        /* Skip to main content button for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-dark-blue);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* For screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        .intro {
+          font-size: 20px;
+          color: rgb(75, 78, 95);
+          line-height: 32px;
+          max-width: 900px;
+          text-align: left;
+          margin-top: 45px;
+        }
+
+        .footer {
+        background-color: var(--primary-white);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        padding: 2.5rem;
+        margin-top: 10rem;
+        text-align: center;
+        border-radius: 12px;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+    }
+    
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .footer a {
+        color: var(--primary-dark-blue);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+    
+    .footer a:hover {
+        color: var(--primary-light-blue);
+    }
+    
+    .github-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 2px solid var(--primary-light-blue);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    .github-link:hover {
+        background-color: var(--primary-light-blue);
+        color: var(--primary-white) !important;
+    }
+    
+    .github-icon {
+        transition: transform 0.2s ease;
+    }
+    
+    .github-link:hover .github-icon {
+        transform: scale(1.1);
+    }
+    
+    @media (max-width: 768px) {
+        .footer {
+            margin-top: 1.5rem;
+            padding: 1rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header>
+        <h1>Framework7 UI Gallery</h1>
+
+        <p class="intro">
+          A comprehensive visual showcase of Framework7 components and screens from the Kitchen Sink demo. Browse through all UI capabilities in a Figma-like experience, allowing you to resize and explore each component in detail.
+          Created by <a href="www.dariuszsikorski.pl">Dariusz Sikorski</a> for developers and designers who appreciate easy browsing of the extensive component library in one elegant gallery.
+          For complete documentation and resources, visit the official website: <a href="https://framework7.io">https://framework7.io</a>
+          It provides a visual reference to all UI elements a free and open source framework to develop mobile, desktop or web apps with native look and feel, available for vanilla JavaScript, Vue.js, React and Svelte.
+        </p>
+
+
+
+
+
+
+
+
+    </header>
+    
+    <div class="controls" role="region" aria-label="Gallery controls">
+        <div class="slider-container">
+            <label for="sizeSlider">Image Size:</label>
+            <input type="range" id="sizeSlider" min="50" max="200" value="100" aria-valuemin="50" aria-valuemax="200" aria-valuenow="100" aria-label="Image size slider">
+            <span id="sizeValue" aria-live="polite">100%</span>
+        </div>
+        
+        <div class="preset-buttons">
+            <button data-size="50" aria-label="Set size to 50%">50%</button>
+            <button data-size="100" class="active" aria-label="Set size to 100%">100%</button>
+            <button data-size="150" aria-label="Set size to 150%">150%</button>
+            <button data-size="200" aria-label="Set size to 200%">200%</button>
+        </div>
+    </div>
+    
+    <main id="main-content">
+        <div class="gallery" role="region" aria-label="UI component gallery"></div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+          <p>Created by <a href="https://dariuszsikorski.pl" target="_blank" rel="noopener noreferrer">Dariusz Sikorski</a></p>
+          <a href="https://github.com/dariuszsikorski/framework7-kitchen-sink-screens" target="_blank" rel="noopener noreferrer" class="github-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="github-icon">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+              <span>GitHub Repository</span>
+          </a>
+      </div>
+  </footer>
+    
+    <script>
+        // Data from your array
+        const data = {
+            "screens": [
+                "010 About.png",
+                "020 Accordion.png",
+                "030 Action Sheet.png",
+                "040 Area Chart.png",
+                "050 Area Chart.png",
+                "060 Autocomplete.png",
+                "070 Autocomplete.png",
+                "080 Badge.png",
+                "090 Breadcrumbs.png",
+                "100 Buttons.png",
+                "110 Buttons.png",
+                "120 Calendar Datepicker.png",
+                "130 Calendar Datepicker.png",
+                "140 Cards.png",
+                "150 Cards.png",
+                "160 Cards Expandable.png",
+                "170 Cards Expandable.png",
+                "180 Checkbox.png",
+                "190 Checkbox.png",
+                "200 Chips Tags.png",
+                "210 Color Picker.png",
+                "220 Color Picker.png",
+                "230 Contact List.png",
+                "240 Content Block.png",
+                "250 Data Table.png",
+                "260 Data Table.png",
+                "270 Dialog.png",
+                "280 Floating Action Button.png",
+                "290 Floating Action Button Morph.png",
+                "300 Form Storage.png",
+                "310 Gauge.png",
+                "320 Gauge.png",
+                "330 Grid Layout.png",
+                "340 Icons.png",
+                "350 Infinite Scroll.png",
+                "360 Form Inputs.png",
+                "370 List Button.png",
+                "380 List View.png",
+                "390 List View.png",
+                "400 List Index.png",
+                "410 Login Screen.png",
+                "420 Menu List.png",
+                "430 Messages.png",
+                "440 Navbar.png",
+                "450 Notifications.png",
+                "460 Side Panel.png",
+                "470 Nested Panel.png",
+                "480 Photo Browser.png",
+                "490 Picker.png",
+                "500 Pie Chart.png",
+                "510 Popover.png",
+                "520 Popup.png",
+                "530 Popup Swipe Handler.png",
+                "540 Popup Push.png",
+                "550 Preloader.png",
+                "560 Progresss Bar.png",
+                "570 Pull To Refresh.png",
+                "580 Radio.png",
+                "590 Radio.png",
+                "600 Range Slider.png",
+                "610 Searchbar Expandable.png",
+                "610 Searchbar.png",
+                "620 Segmented.png",
+                "630 Sheet Modal Swipe.png",
+                "630 Sheet Modal.png",
+                "640 Skeleton Elements.png",
+                "650 Smart Select.png",
+                "660 Smart Select Push.png",
+                "670 Smart Select Popover.png",
+                "680 Sortable List.png",
+                "690 Stepper.png",
+                "700 SubNavbar.png",
+                "710 Swipeout.png",
+                "720 Swipeout.png",
+                "730 Swiper Slider.png",
+                "740 Swiper Slider.png",
+                "750 Tabs.png",
+                "760 Text Editor.png",
+                "770 Timeline Horizontal.png",
+                "770 Timeline Vertical.png",
+                "780 Timeline Calendar.png",
+                "790 Toast.png",
+                "800 Toggle.png",
+                "810 Tabbar.png",
+                "820 Toolbar.png",
+                "830 Tooltip.png",
+                "840 Treeview.png",
+                "850 Color Themes.png",
+                "850 Virtual List.png"
+            ]
+        };
+
+        const gallery = document.querySelector('.gallery');
+        const sizeSlider = document.getElementById('sizeSlider');
+        const sizeValue = document.getElementById('sizeValue');
+        const presetButtons = document.querySelectorAll('.preset-buttons button');
+        const baseWidth = 428;
+
+        // Function to extract title from filename
+        function extractTitle(filename) {
+            // Remove the number prefix (first 4 characters) and the file extension
+            return filename.substring(4, filename.lastIndexOf('.'));
+        }
+
+        // Function to render gallery items
+        function renderGallery() {
+            gallery.innerHTML = '';
+            
+            data.screens.forEach((screen) => {
+                const title = extractTitle(screen);
+                const figure = document.createElement('figure');
+                
+                const heading = document.createElement('h3');
+                heading.textContent = title;
+                
+                const img = document.createElement('img');
+                img.classList.add('loading');
+                img.src = `./screens/tiny/${screen}`;
+                img.alt = title;
+                img.width = baseWidth * (parseInt(sizeSlider.value) / 100);
+                
+                // Accessibility attributes
+                img.setAttribute('aria-describedby', `desc-${title.replace(/\s+/g, '-').toLowerCase()}`);
+                
+                // Add a hidden description for screen readers
+                const description = document.createElement('span');
+                description.id = `desc-${title.replace(/\s+/g, '-').toLowerCase()}`;
+                description.classList.add('sr-only');
+                description.textContent = `UI component demonstrating ${title}`;
+                
+                figure.appendChild(heading);
+                figure.appendChild(img);
+                figure.appendChild(description);
+                
+                gallery.appendChild(figure);
+                
+                // Remove loading state once image is loaded
+                img.onload = () => {
+                    img.classList.remove('loading');
+                };
+            });
+        }
+
+        // Function to update image sizes
+        function updateImageSizes(percentage) {
+            const width = baseWidth * (percentage / 100);
+            document.querySelectorAll('.gallery img').forEach(img => {
+                img.width = width;
+            });
+            sizeValue.textContent = `${percentage}%`;
+            sizeSlider.setAttribute('aria-valuenow', percentage);
+            
+            // Update active state on preset buttons
+            presetButtons.forEach(button => {
+                if (parseInt(button.dataset.size) === percentage) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        // Initialize the gallery
+        renderGallery();
+
+        // Slider event listener
+        sizeSlider.addEventListener('input', () => {
+            const percentage = parseInt(sizeSlider.value);
+            updateImageSizes(percentage);
+        });
+
+        // Preset buttons event listeners
+        presetButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const percentage = parseInt(button.dataset.size);
+                sizeSlider.value = percentage;
+                updateImageSizes(percentage);
+            });
+        });
+
+        // Lazy loading implementation for better performance
+        let observer;
+        if ('IntersectionObserver' in window) {
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            // We don't actually use this since we're loading from local files
+            // but it's here as a best practice for web apps
+        }
+
+        // Media query listener for responsive design adjustments
+        const mediaQuery = window.matchMedia('(max-width: 768px)');
+        function handleScreenSizeChange(e) {
+            // We could adjust layout or image size based on screen size
+            // This is just a placeholder for potential responsive adjustments
+        }
+        mediaQuery.addEventListener('change', handleScreenSizeChange);
+        
+        // Handle initial screen size
+        handleScreenSizeChange(mediaQuery);
+
+        // Add keyboard navigation support for gallery
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement && document.activeElement.tagName === 'IMG') {
+                const figures = Array.from(document.querySelectorAll('figure'));
+                const currentIndex = figures.findIndex(figure => 
+                    figure.contains(document.activeElement)
+                );
+                
+                if (currentIndex !== -1) {
+                    let nextIndex;
+                    
+                    switch (e.key) {
+                        case 'ArrowRight':
+                            nextIndex = (currentIndex + 1) % figures.length;
+                            figures[nextIndex].querySelector('img').focus();
+                            e.preventDefault();
+                            break;
+                        case 'ArrowLeft':
+                            nextIndex = (currentIndex - 1 + figures.length) % figures.length;
+                            figures[nextIndex].querySelector('img').focus();
+                            e.preventDefault();
+                            break;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
