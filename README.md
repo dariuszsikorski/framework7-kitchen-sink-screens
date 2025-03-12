@@ -4,7 +4,7 @@ Live: [framework7-kitchen-sink-screens](https://dariuszsikorski.github.io/framew
 
 A comprehensive visual showcase of Framework7 components and screens from the Kitchen Sink demo. Browse through all UI capabilities in a Figma-like experience, allowing you to resize and explore each component in detail.
 
-![Framework7 UI Gallery Screenshot](./screens/thumbnail.png)
+![Framework7 UI Gallery Screenshot](./screens/fw7-screen.png)
 
 ## Features
 
